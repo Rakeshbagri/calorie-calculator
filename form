@@ -1,0 +1,161 @@
+<div class="eatwell-header">
+ <div class="container">
+<div class="row">
+ 
+  <div class="col-sm-6 right-block">
+ {{ 'jquery.validate.min.js' | asset_url | script_tag }}
+<form id="mailchimp-form" action="" class="waight-loss" method="post" name="{% if settings.mailing-list-platform == 'mailchimp' %}mc-embedded-subscribe-form{% endif %}" target="_blank">
+  <h6 class="h5">  Calculate your recommended calorie intake! </h6>
+  
+  <div class="row">
+   <div class="age col-xs-6">
+      <label for="yourAge">Age </label> 
+      <input id="age" type="text" name="age" value="" required>
+    </div>
+  </div>
+  <div class="row clear">
+    <div class="col-xs-6">
+      <label>Height </label>  
+      <input id="height_feet" type="text" name="height_feet" value="" placeholder="ft" required>
+      <input id="height_inches" type="text" name="height_inches" value="" placeholder="inches" required>
+    </div>
+     <div class="col-xs-6">
+      <label>Weight:</label>  
+      <input id="weight" type="text" name="weight" value="" placeholder="in pounds" required>
+    </div>
+  </div>
+  <div class="row">
+    <div class="gen col-xs-12">
+      <label for="yourGender">Gender:</label> 
+    <div class="le">
+      <input id="male" type="radio" name="gender" required="required"><i>Male</i> </div>
+    <div class="le">
+      <input id="female" type="radio" name="gender" required="required"><i>Female</i> </div>
+    </div>
+  </div>
+  <div class="row">
+    <label for="dailyActivity">Exercise level</label>  
+    <select name="activity" id="dailyActivity" required>
+      <option value="" >Activity level</option>
+      <option value="1.2">Sedentary (little or no exercise)</option>
+      <option value="1.375">Lightly active (light exercise/sports 1-3 days/week)</option>
+      <option value="1.55">Moderatetely active (moderate exercise/sports 3-5 days/week)</option>
+      <option value="1.725">Very active (hard exercise/sports 6-7 days a week)</option>
+      <option value="1.9">Extra active (very hard exercise/sports & physical job or 2x training)</option>
+    </select>
+  </div>
+  <div class="row">
+    <label>Your goal</label>
+    <div class="le">
+    <input name="goal" id="loseweight" type="radio"  required="required"><i> Lose Weight </i> 
+    </div>
+    <div class="le w25">
+    <input name="goal" id="maintainweight" type="radio" required="required"><i> Maintain Weight </i>
+    </div>
+    <div class="le w20">
+    <input name="goal" id="gainweight" type="radio" required="required"><i> Gain Weight </i>
+    </div>
+    <!--<a href="javascript: void(0)" id="start"> Start </a>-->
+  </div>
+  <div class="clr text-center mnav">
+  <input type="button" class="submit btn-2 viewresult" name="subscriber" onclick="myselffunction()" value="Calculate!">
+  </div>
+  <div class="cal-result" >  <span id="totelvals"></span>  <a id="typeform" class="btn-2 nar11" href="#shopify-section-eatwell-myplan">{{section.settings.button_text}}</a> </div>
+ 
+</form>
+ </div>
+</div>
+</div>
+</div>
+ <script>
+    $("#mailchimp-form").validate(); 
+  </script>
+
+<script type="text/javascript">
+
+  function ourfunction() {
+    
+   function find(id) { return document.getElementById(id) }
+    var age = find("age").value;
+    //  var height = find("height").value;
+    var height = find("height_feet").value * 30.48 + find("height_inches").value * 2.54 ;
+    var weight = find("weight").value;
+    var result = 0
+    if (find("male").checked) 
+    result = 66 + (6.23 * weight) + (5 * height) - (6.8 * age)
+    else if (find("female").checked)
+    result = 665.09 + (4.35 * weight) + (1.8 * height) - (4.7 * age)
+    result = find("dailyActivity").value*result;
+    if (find("loseweight").checked){
+      result = result - 500;
+    }else if (find("gainweight").checked){
+      result = result + 500;
+    } else (find("maintainweight").checked)
+    result = result / 100;
+    result = Math.round(result);
+    result = result * 100;
+    if(result <= '1500') {
+      find("totalCals").innerHTML = Math.round( result )
+    }  
+    if( result <= '1500'){
+      window.location.href = "{{ section.settings.introduction-title-1500 }}";
+    } else if (result == '1600'){
+      window.location.href = "{{ section.settings.introduction-title-1600 }}";
+    } else if (result == '1700'){
+      window.location.href = "{{ section.settings.introduction-title-1700 }}";
+    } else if (result == '1800'){
+      window.location.href = "{{ section.settings.introduction-title-1800 }}";
+    } else if (result == '1900'){
+      window.location.href = "{{ section.settings.introduction-title-1900 }}";
+    } else if (result == '2000'){
+      window.location.href = "{{ section.settings.introduction-title-2000 }}";
+    } else if (result == '2100'){
+      window.location.href = "{{ section.settings.introduction-title-2100 }}";
+    } else if (result == '2200'){
+      window.location.href = "{{ section.settings.introduction-title-2200 }}";
+    } else if (result == '2300'){
+      window.location.href = "{{ section.settings.introduction-title-2300 }}";
+    } else if (result == '2400'){
+      window.location.href = "{{ section.settings.introduction-title-2400 }}";
+    } else if (result >= '2500'){
+      window.location.href = "{{ section.settings.introduction-title-2500 }}";
+    } 
+
+  }
+  function myselffunction () {
+    
+     function find(id) { return document.getElementById(id) }
+    var age = find("age").value;
+    //  var height = find("height").value;
+    var height = find("height_feet").value * 30.48 + find("height_inches").value * 2.54 ;
+    var weight = find("weight").value;
+    var result = 0
+    if (find("male").checked) 
+    result = 66 + (6.23 * weight) + (5 * height) - (6.8 * age)
+    else if (find("female").checked)
+    result = 665.09 + (4.35 * weight) + (1.8 * height) - (4.7 * age)
+    result = find("dailyActivity").value*result;
+    if (find("loseweight").checked) {
+  //find("totalvals").innerHTML = Math.round( result )
+    result = result - 500;
+    }else if (find("gainweight").checked){
+      result = result + 500;
+    } else (find("maintainweight").checked)
+    find("totelvals").innerHTML = 'Your calculated daily calorie intake : ' + Math.round( result )
+    result = result / 100;
+   
+    result = Math.round(result);
+    result = result * 100;
+    find("totalCals").innerHTML = Math.round( result )
+    $(".waight-loss input.calorie").css("display", "block");   
+   }
+</script>
+
+<script> 
+ $(document).ready(function(e) {
+    $(".mnav").click(function(){
+	 $(".nar11").toggleClass("rakesh11");	 
+	});
+   
+});
+</script> 
